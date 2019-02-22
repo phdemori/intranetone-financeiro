@@ -17,7 +17,6 @@
         }
       },
     "require": {
-      "dataview/intranetone": "*"
     },
     "extra": {
       "laravel": {
