@@ -1,23 +1,28 @@
 {
-    "name": "dataview/iofinanceiro",
-    "description": "serviço de cadastro do módulo financeiro com contas a pagar, a receber e plano de contas do intranetone",
+    "name": "agileti/iofinanceiro",
+    "description": "serviço financeiros (plano de contas, contas a pagar e contas a receber) da intranetone",
     "authors": [
         {
-            "name": "Paulo Henrique G. Demori",
+            "name": "mdisconzi",
+            "email": "mdisconzi@bitbucket.org"
+        },
+        {
+            "name": "Paulo Henrique Demori",
             "email": "phdemori@gmail.com"
         }
     ],
     "autoload": {
         "psr-4": {
-        "Dataview\\IOFinanceiro\\": "src/"
+        "Agileti\\IOFinanceiro\\": "src/"
         }
       },
     "require": {
+      "dataview/intranetone": "*"
     },
     "extra": {
       "laravel": {
           "providers": [
-              "\\Dataview\\IOFinanceiro\\IOFinanceiroServiceProvider"
+              "\\Agileti\\IOFinanceiro\\IOFinanceiroServiceProvider"
           ]
       }
   }
