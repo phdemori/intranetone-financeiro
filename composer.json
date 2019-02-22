@@ -1,0 +1,24 @@
+{
+    "name": "dataview/iofinanceiro",
+    "description": "serviço de cadastro do módulo financeiro com contas a pagar, a receber e plano de contas do intranetone",
+    "authors": [
+        {
+            "name": "Paulo Henrique G. Demori",
+            "email": "phdemori@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+        "Dataview\\IOFinanceiro\\": "src/"
+        }
+      },
+    "require": {
+    },
+    "extra": {
+      "laravel": {
+          "providers": [
+              "\\Dataview\\IOFinanceiro\\IOFinanceiroServiceProvider"
+          ]
+      }
+  }
+}
