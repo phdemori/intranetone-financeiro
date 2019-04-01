@@ -6,7 +6,7 @@ Cadastro do módulo financeiro (plano de contas, contas a pagar e contas a receb
 ## Instalação
 
 ```sh
-composer require intranetone-financeiro
+composer require agileti/iofinanceiro
 ```
 ```sh
 php artisan io-financeiro:install
