@@ -9,7 +9,7 @@ class Remove extends IOServiceRemoveCmd
 {
   public function __construct(){
     parent::__construct([
-      "service"=>"PlanoConta",
+      "service"=>"Financeiro",
     ]);
   }
 

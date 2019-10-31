@@ -3,38 +3,42 @@ namespace Agileti\IOFinanceiro;
 
 use DataTables;
 use Dataview\IntranetOne\IOController;
-use Agileti\IOFinanceiro\PlanoConta;
-use Agileti\IOFinanceiro\PlanoContaRequest;
+use Agileti\IOFinanceiro\Financeiro;
+use Agileti\IOFinanceiro\FinanceiroRequest;
 use Illuminate\Http\Response;
 
-class PlanoContaController extends IOController
+class FinanceiroController extends IOController
 {
 
     public function __construct()
     {
-        $this->service = 'PlanoConta';
+        $this->service = 'financeiro';
     }
 
     public function index()
     {
-        return view('PlanoConta::index');
+        return view('Financeiro::index');
     }
 
     function list() {
-        $query = PlanoConta::select('*')->orderBy('created_at', 'desc')->get();
-        
+        $query = Financeiro::select('entidades.cpf_cnpj', 'entidades.nome_fantasia', 'entidades.email', 'cidades.cidade', 'cidades.uf', 'contratos.codigo', 'financeiros.*')
+        ->join('entidades', 'financeiros.entidade_id', '=', 'entidades.id')
+        ->join('cidades', 'entidades.cidade_id', '=', 'cidades.id')
+        ->join('contratos', 'financeiros.contrato_id', '=', 'contratos.id')
+        ->orderBy('created_at', 'desc')->get();
+
         return Datatables::of(collect($query))->make(true);
     }
 
-    public function create(PlanoContaRequest $request)
+    public function create(FinanceiroRequest $request)
     {
         $check = $this->__create($request);
-        
+
         if (!$check['status']) {
             return response()->json(['errors' => $check['errors']], $check['code']);
         }
-        
-        $obj = new PlanoConta($request->all());
+
+        $obj = new Financeiro($request->all());
         $obj->save();
 
         return response()->json(['success' => true, 'data' => null]);
@@ -47,14 +51,14 @@ class PlanoContaController extends IOController
             return response()->json(['errors' => $check['errors']], $check['code']);
         }
 
-        $query = PlanoConta::select('plano_centro.*', 'cidades.cidade', 'cidades.uf')
-            ->join('cidades', 'plano_centro.cidade_id', '=', 'cidades.id')
-            ->where('plano_centro.id', $id)->get();
+        $query = Financeiro::select('financeiro.*', 'cidades.cidade', 'cidades.uf')
+            ->join('cidades', 'financeiro.cidade_id', '=', 'cidades.id')
+            ->where('financeiro.id', $id)->get();
 
         return response()->json(['success' => true, 'data' => $query]);
     }
 
-    public function update($id, PlanoContaRequest $request)
+    public function update($id, FinanceiroRequest $request)
     {
         $check = $this->__update($request);
         if (!$check['status']) {
@@ -62,8 +66,9 @@ class PlanoContaController extends IOController
         }
 
         $_new = (object) $request->all();
-        $_old = PlanoConta::find($id);
-        $_old->tipo = $_new->tipo;
+        $_old = Financeiro::find($id);
+        //$_old->tipo = $_new->tipo;
+        $_old->condominio_id = $_new->condominio_id;
         $_old->razaosocial = $_new->razaosocial;
         $_old->nome_fantasia = $_new->nome_fantasia;
         $_old->insc_estadual = $_new->insc_estadual;
@@ -98,30 +103,30 @@ class PlanoContaController extends IOController
             return response()->json(['errors' => $check['errors']], $check['code']);
         }
 
-        $obj = PlanoConta::find($id);
+        $obj = Financeiro::find($id);
         $obj = $obj->delete();
         return json_encode(['sts' => $obj]);
     }
 
     public function checkId($id)
     {
-        return PlanoConta::select('razaosocial')->where('id', '=', $id)->get();
+        return Financeiro::select('razaosocial')->where('id', '=', $id)->get();
     }
 
-    public function getCep($cep)
+    public function cidadesMigration()
     {
+        $json = File::get("js/data/cidades.json");
+        $data = json_decode($json, true);
+        $r = "";
+        foreach ($data as $obj) {
+            $r .= $obj['id'];
+        }
+        return $r;
     }
 
-    public function getPlanoConta($query)
+    public function getFinanceiro($query)
     {
-        return json_encode(PlanoConta::select('razaosocial as n', 'cpf_cnpj as k')->where('razaosocial', 'like', "%$query")->get());
+        return json_encode(Financeiro::select('razaosocial as n', 'cpf_cnpj as k')->where('razaosocial', 'like', "%$query")->get());
     }
 
-    public function get_enum_values( $table, $field )
-    {
-        $type = PlanoConta::query( "SHOW COLUMNS FROM {$table} WHERE Field = '{$field}'" )->row( 0 )->Type;
-        preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
-        $enum = explode("','", $matches[1]);
-        return $enum;
-    }
 }

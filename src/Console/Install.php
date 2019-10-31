@@ -9,7 +9,7 @@ class Install extends IOServiceInstallCmd
 {
   public function __construct(){
     parent::__construct([
-      "service"=>"financeiro",
+      "service"=>"Financeiro",
       "provider"=> IOFinanceiroServiceProvider::class,
       "seeder"=>FinanceiroSeeder::class,
     ]);

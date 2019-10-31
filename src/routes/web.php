@@ -1,14 +1,14 @@
 <?php
 
 Route::group(['prefix' => 'admin', 'middleware' => ['web','admin'], 'as' => 'admin.'],function(){
-    Route::group(['prefix' => 'planoconta'], function () {
-        Route::get('/','PlanoContaController@index');
-        Route::get('list', 'PlanoContaController@list');
-        Route::post('create', 'PlanoContaController@create');
-        Route::get('createActivation/{planocontaId}', 'PlanoContaController@createActivation');
-        Route::get('delete/{id}', 'PlanoContaController@delete');
-        Route::post('update/{id}', 'PlanoContaController@update');
-        Route::get('view/{id}', 'PlanoContaController@view');
+    Route::group(['prefix' => 'financeiro'], function () {
+        Route::get('/','FinanceiroController@index');
+        Route::get('list', 'FinanceiroController@list');
+        Route::post('create', 'FinanceiroController@create');
+        Route::get('createActivation/{financeiroId}', 'FinanceiroController@createActivation');
+        Route::get('delete/{id}', 'FinanceiroController@delete');
+        Route::post('update/{id}', 'FinanceiroController@update');
+        Route::get('view/{id}', 'FinanceiroController@view');
     });
 });
 

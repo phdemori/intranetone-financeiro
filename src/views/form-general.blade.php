@@ -27,7 +27,7 @@
             <label for = 'admin' class="bmd-label-floating __required">Administrador?</label>
             <br>
             <button type="button" class="btn btn-lg aanjulena-btn-toggle btn-lg active"
-                    data-toggle="button" aria-pressed="true" 
+                    data-toggle="button" aria-pressed="true"
                     data-default-state='true' autocomplete="off" name = 'admin' id = 'admin'
                     style="margin: 0; margin-left: 40px; margin-top: 10px;">
                 <div class="handle"></div>
@@ -51,7 +51,7 @@
           </div>
         </div>
       </div>
-      
+
     </div>
     <!-- coluna B-->
     @if(Sentinel::inRole('admin'))
@@ -59,7 +59,7 @@
     @else
       <div class="col-md col-sm-12 pr-1 d-none">
     @endif
-      <h4><i class = ''></i> 
+      <h4><i class = ''></i>
         <span class = 'text-default'><small>Permissões</small></span></h4>
       <hr />
       <div class = 'row'>
